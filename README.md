@@ -1,1 +1,1 @@
-## Blues2-collect 开发中。。。。
+## Blues_hub 开发中。。。。
