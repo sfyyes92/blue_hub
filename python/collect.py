@@ -18,15 +18,14 @@ def extract_video_id(url):
 
 def get_subtitle_or_audio(video_id):
     audio_file = "temp_audio.wav"
-    
+
     ydl_opts = {
         'format': 'bestaudio/best',
         'quiet': True,
         'no_warnings': True,
         'nocheckcertificate': True,
-        'ignoreerrors': False,
-        'no_cookies': True,
-        'extractor_args': 'youtube:player_client=web',
+        'ignoreerrors': True,
+        'extractor_args': 'youtube:player_client=android',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'wav',
@@ -56,10 +55,10 @@ def extract_info(text):
     passwords = []
     for p in password_patterns:
         passwords += re.findall(p, text, re.I)
-    
+
     urls = re.findall(r'https?://[^\s]+', text)
     nodes = re.findall(r'(vmess|vless|trojan|ss|ssr)://[^\s]+', text, re.I)
-    
+
     return {
         "passwords": list(set(passwords)) or ["未找到"],
         "urls": list(set(urls)) or ["未找到"],
@@ -72,7 +71,9 @@ def main():
     args = parser.parse_args()
 
     try:
-        video_id = extract_video_id(args.url)
+        # 清理 URL 里的换行/空格（关键修复！）
+        url = args.url.strip()
+        video_id = extract_video_id(url)
         print(f"✅ 视频ID: {video_id}")
 
         audio_path = get_subtitle_or_audio(video_id)
@@ -82,7 +83,7 @@ def main():
         info = extract_info(full_text)
 
         result = {
-            "url": args.url,
+            "url": url,
             "video_id": video_id,
             "info": info,
             "full_text": full_text
