@@ -28,7 +28,7 @@ jobs:
           cache: 'pip'
 
       - run: pip install -r python/requirements.txt
-      - run: pip install selenium webdriver-manager bs4 pyperclip tqdm
+      - run: pip install selenium webdriver-manager bs4 pyperclip tqdm youtube-transcript-api yt-dlp openai-whisper pandas
       - run: sudo apt update;sudo apt install -y ffmpeg
 
       - name: Collect
