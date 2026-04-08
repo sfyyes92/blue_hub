@@ -29,10 +29,11 @@ jobs:
 
       - run: pip install -r python/requirements.txt
       - run: pip install selenium webdriver-manager bs4 pyperclip tqdm
+      - run: sudo apt update;sudo apt install -y ffmpeg
 
       - name: Collect
         run: |
-          cd python && python collect.py
+          cd python && python collect.py --url "https://www.youtube.com/watch?v=DfJCPcANBcI"
 
       # ✅ 还原：只有前面成功才会执行（collect.py 报错时，此步不会运行）
       - name: Commit && Push
